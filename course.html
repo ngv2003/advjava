@@ -26,10 +26,16 @@
         <button type="submit">Delete</button>
 </form>
  
-<form action="editcourse" method="get">
-    <h2>Edit Course</h2>
-    <input type="text" name="cid_to_edit" placeholder="Enter Course ID to Edit" required>
-    <button type="submit">Edit</button>
+<form action="editcourse" method="post">
+        <h3>Enter Course ID to Edit</h3>
+        <input type="text" name="cid_to_edit" required>
+        <h3>Edited course name</h3>
+        <input type="text" name="edited_cname" required>
+        <h3>Edited review rating</h3>
+        <input type="text" name="edited_rating" required>
+        <h3>Edited duration</h3>
+        <input type="text" name="edited_duration" required>
+        <button type="submit">Edit</button>
 </form>
 </body>
 </html>
