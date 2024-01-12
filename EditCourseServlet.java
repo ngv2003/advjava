@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @WebServlet("/editcourse")
 public class EditCourseServlet extends HttpServlet {
-	private final static String query = "SELECT cid, cname, rating, duration FROM course WHERE cid = ?";
+	private final static String query = "UPDATE course SET cname=?, rating=?, duration=? WHERE cid=?";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter pw = res.getWriter();
         res.setContentType("text/html");
 
         String cidToEdit = req.getParameter("cid_to_edit");
+        String editedCname = req.getParameter("edited_cname");
+        String editedRating = req.getParameter("edited_rating");
+        String editedDuration = req.getParameter("edited_duration");
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -29,27 +32,17 @@ public class EditCourseServlet extends HttpServlet {
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql:///mydb2", "root", "");
              PreparedStatement ps = con.prepareStatement(query);) {
-            ps.setString(1, cidToEdit);
-            ResultSet rs = ps.executeQuery();
+        	ps.setString(1, editedCname);
+            ps.setString(2, editedRating);
+            ps.setString(3, editedDuration);
+            ps.setString(4, cidToEdit);
 
-            if (rs.next()) {
-                String cid = rs.getString("cid");
-                String cname = rs.getString("cname");
-                String rating = rs.getString("rating");
-                String duration = rs.getString("duration");
+            int count = ps.executeUpdate();
 
-                // Display the form with pre-filled values for editing
-                pw.println("<form action='updatecourse' method='post'>");
-                pw.println("<h2>Edit Course</h2>");
-                pw.println("<input type='hidden' name='c_id' value='" + cid + "'>");
-                pw.println("Course ID: " + cid + "<br>");
-                pw.println("Course Name: <input type='text' name='c_name' value='" + cname + "' required><br>");
-                pw.println("Review Rating: <input type='text' name='rating' value='" + rating + "' required><br>");
-                pw.println("Duration: <input type='text' name='duration' value='" + duration + "' required><br>");
-                pw.println("<button type='submit'>Update</button>");
-                pw.println("</form>");
+            if (count == 1) {
+                pw.println("Record Updated Successfully");
             } else {
-                pw.println("Course not found for editing.");
+                pw.println("Record not Found or Not Updated");
             }
         } catch (SQLException se) {
             pw.println("<h2>" + se.getMessage() + "</h2>");
