@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>course details</title>
+</head>
+<body>
+<h1>COURSE DETAILS</h1>
+<form action="enter" method="post">
+<h2>course id</h2>
+<input type="text" name="c_id" required>
+<h2>course name</h2>
+<input type="text" name="c_name" required>
+<h2>review rating</h2>
+<input type="text" name="rating" required>
+<h2>duration</h2>
+<input type="text" name="duration" required>
+<button type="submit">submit</button>
+<button><a href="showcourses">course details</a></button>
+</form>
+
+
+<form action="deletecourse" method="post">
+        <h2>Delete Course</h2>
+        <input type="text" name="cid_to_delete" placeholder="Enter Course ID to Delete" required>
+        <button type="submit">Delete</button>
+</form>
+ 
+<form action="editcourse" method="get">
+    <h2>Edit Course</h2>
+    <input type="text" name="cid_to_edit" placeholder="Enter Course ID to Edit" required>
+    <button type="submit">Edit</button>
+</form>
+</body>
+</html>
